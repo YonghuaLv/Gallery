@@ -40,10 +40,20 @@
 		var picWidth = Math.floor((winWidth-padding*3-scrollBarWidth)/4);
 		for(var i=1;i<=total;i++){
 			var p = padding;
+			var imgSrc='img/'+i+'.jpg';
 			if(i%4==1){
 				p = 0;//每行第一张图片padding值为0；
 			}
-			tmpl+='<li data-id="'+i+'" class="animated bounceIn" style="width:'+picWidth+'px;height:'+picWidth+'px;padding-left:'+p+'px;padding-top:'+padding+'px;"><img src="img/'+i+'.jpg"></li>';
+			tmpl+='<li data-id="'+i+'" class="animated bounceIn" style="width:'+picWidth+'px;height:'+picWidth+'px;padding-left:'+p+'px;padding-top:'+padding+'px;"><canvas id="cvs_'+i+'"></canvas></li>';
+			var imageObj=new Image();
+			imageObj.index=i;
+			imageObj.onload=function(){
+               var cvs =$('#cvs_'+this.index)[0]. getContext('2d');
+               cvs.width=this.width;
+               cvs.height=this.height;
+               cvs.drawImage(this,0,0);
+			}
+			imageObj.src=imgSrc;
 		}
 		$('#container').html(tmpl);
 	}
